@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## This script is for cleaning up nexus repository
-## version: v0.1
+## version: v0.1.1
 ## date: 2025-02-28
 
 # Find the lastest full backup snapshot
