@@ -2,7 +2,7 @@
 
 ## This script is for cleaning up nexus repository
 ## version: v0.1
-## date: 2025-02-27
+## date: 2025-02-28
 
 # Find the lastest full backup snapshot
 latest_snapshot=$(restic -r "$RESTIC_REPO_NEXUS" snapshots --json | jq -r '
@@ -40,6 +40,9 @@ fi
 
 echo "Old Snapshots to Delete:"
 echo "$old_snapshots"
+
+# Unlock restc repo (if locked) 
+restic -r "$RESTIC_REPO_NEXUS" unlock || { echo "!!Warning: Failed to unlock respository" }
 
 # Delete old snapshots
 for snapshot in $old_snapshots; do
