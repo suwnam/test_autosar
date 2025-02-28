@@ -18,13 +18,10 @@ pipeline {
 
     environment {
 
-        GROOVY_DIR = "${JENKINS_HOME}/groovy"
 
-        
+        RESTIC_REPO_JENKINS = "${RESTIC_REPO}/test_jenkins"
 
-        RESTIC_REPO_JENKINS = "${RESTIC_REPO}/jenkins_repo"
-
-        RESTIC_REPO_NEXUS = "${RESTIC_REPO}/nexus_repo"
+        RESTIC_REPO_NEXUS = "${RESTIC_REPO}/test_nexus"
 
         
 
@@ -52,7 +49,7 @@ pipeline {
 
                     echo "Ensuring restore script has execute permissions..."
 
-                    sh "chmod +x ${GROOVY_DIR}/*.sh"
+                    sh "chmod +x ./*.sh"
 
                 }
 
@@ -74,7 +71,7 @@ pipeline {
 
                         catchError {
 
-                            sh '${GROOVY_DIR}/${SCRIPT_JBACKUP}'
+                            sh './${SCRIPT_JBACKUP}'
 
                         }
 
@@ -100,7 +97,7 @@ pipeline {
 
                         catchError {
 
-                            sh '${GROOVY_DIR}/${SCRIPT_NBACKUP}'
+                            sh './${SCRIPT_NBACKUP}'
 
                         }
 
@@ -126,7 +123,7 @@ pipeline {
 
                         catchError {
 
-                            sh '${GROOVY_DIR}/${SCRIPT_JCLEAN}'
+                            sh '$./${SCRIPT_JCLEAN}'
 
                         }
 
@@ -152,7 +149,7 @@ pipeline {
 
                         catchError{
 
-                            sh '${GROOVY_DIR}/${SCRIPT_NCLEAN}'
+                            sh '$./${SCRIPT_NCLEAN}'
 
                         }
 
