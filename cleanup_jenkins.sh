@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ## This script is for cleaning up jenkins repository
-## version: v0.1
-## date: 2025-02-27
+## version: v0.1.1
+## date: 2025-02-28
 
 # Find the lastest full backup snapshot
 latest_snapshot=$(restic -r "$RESTIC_REPO_JENKINS" snapshots --json | jq -r '
@@ -40,6 +40,9 @@ fi
 
 echo "Old Snapshots to Delete:"
 echo "$old_snapshots"
+
+# Unlock restc repo (if locked) 
+restic -r "$RESTIC_REPO_JENKINS" unlock || { echo "!!Warning: Failed to unlock respository" }
 
 # Delete old snapshots
 for snapshot in $old_snapshots; do
