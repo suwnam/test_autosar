@@ -123,7 +123,7 @@ pipeline {
 
                         catchError {
 
-                            sh '$./${SCRIPT_JCLEAN}'
+                            sh './${SCRIPT_JCLEAN}'
 
                         }
 
@@ -149,7 +149,7 @@ pipeline {
 
                         catchError{
 
-                            sh '$./${SCRIPT_NCLEAN}'
+                            sh './${SCRIPT_NCLEAN}'
 
                         }
 
