@@ -24,7 +24,7 @@ docker exec -t -e RESTIC_PASSWORD="$RESTIC_PASSWORD" -e RESTIC_REPO_NEXUS="$REST
 
   # JSON 오류에 대한 예외처리
   if [ -z \"\$LATEST_SNAPSHOT_ID\" ] || [ \"\$LATEST_SNAPSHOT_ID\" = \"null\" ]; then
-      echo \"NO snapshot found. exit...\"
+      echo \"NO snapshot found in nexus repository. exit...\"
       exit 1
   fi
 
@@ -32,5 +32,5 @@ docker exec -t -e RESTIC_PASSWORD="$RESTIC_PASSWORD" -e RESTIC_REPO_NEXUS="$REST
   echo \"Restoring snapshot ID: \$LATEST_SNAPSHOT_ID...\"
   restic -r \"\$RESTIC_REPO_NEXUS\" restore \"\$LATEST_SNAPSHOT_ID\" --target / --include \"\$NEXUS_HOME\" --delete
 
-  echo \"Restore completed successfully\"
+  echo \"Restore nexus completed successfully\"
 "
