@@ -4,7 +4,7 @@
 ## version: v0.1
 ## date: 2025-03-04
 
-EXCLUDE_JOB="restore-test-000"
+EXCLUDE_JOB="$JENKINS_HOME/jobs/restore-test-000"
 
 # Restic 저장소 연결 확인
 if restic -r "$RESTIC_REPO_JENKINS" snapshots > /dev/null 2>&1; then
