@@ -58,7 +58,7 @@ pipeline {
 
                     script {
 
-                        echo "Running jenkins snapshot cleanup script..."
+                        echo "Running jenkins snapshot restore script..."
 
                         catchError {
 
@@ -83,7 +83,7 @@ pipeline {
 
                     script {
 
-                        echo "Running jenkins snapshot cleanup script..."
+                        echo "Running nexus snapshot restore script..."
 
                         catchError {
 
