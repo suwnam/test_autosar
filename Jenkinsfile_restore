@@ -70,7 +70,9 @@ pipeline {
 
                 }    
 
-            }    
+            }
+     
+        }
 
           
         stage('Restore Nexus') {
