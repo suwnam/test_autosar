@@ -6,7 +6,6 @@
 
 # 환경 변수 설정
 export NEXUS_CONTAINER_NAME="nexus_stg"  # 넥서스 컨테이너 이름
-export RESTIC_REPO_NEXUS="$RESTIC_REPO/test_nexus"
 export NEXUS_HOME="/nexus-data"  # 넥서스 데이터 저장 경로
 
 # Nexus 컨테이너 내부에서 Restic 복원 실행
