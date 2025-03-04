@@ -25,7 +25,7 @@ pipeline {
 
         SCRIPT_JRESTORE="restore_jenkins.sh"
 
-#        SCRIPT_NRESTORE="restore_nexus.sh"
+//        SCRIPT_NRESTORE="restore_nexus.sh"
 
     }
 
@@ -85,7 +85,7 @@ pipeline {
 
                         catchError {
 
-#                            sh './${SCRIPT_NRESTORE}'
+//                            sh './${SCRIPT_NRESTORE}'
 
                         }
 
