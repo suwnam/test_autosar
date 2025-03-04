@@ -4,8 +4,7 @@
 ## version: v0.1
 ## date: 2025-03-04
 
-RESTIC_REPO_NEXUS="s3:s3.ap-northeast-2.amazonaws.com/synetics-backup-test/test_nexus"
-NEXUS_HOME="/nexus-data"
+
 
 # Restic 저장소 연결 확인
 if restic -r "$RESTIC_REPO_NEXUS" snapshots > /dev/null 2>&1; then
