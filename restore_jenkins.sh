@@ -19,13 +19,17 @@ LATEST_SNAPSHOT_ID=$(restic -r "$RESTIC_REPO_JENKINS" snapshots --json 2>/dev/nu
 
 # JSON 오류에 대한 예외처리
 if [[ "$LATEST_SNAPSHOT_ID" == "null" || -z "$LATEST_SNAPSHOT_ID" ]]; then
-   echo "!!Warning: No snapshot found. exit.."
+   echo "!!Warning: No snapshot found in jenkins repository. exit.."
    exit 1
 fi
 
 
 # 최신 스냅샷으로 복원
-# restic -r "$RESTIC_REPO_JENKINS" restore "$LATEST_SNAPSHOT_ID" --target / --include "$JENKINS_HOME" --exclude "$EXCLUDE_JOB" --delete
-restic -r "$RESTIC_REPO_JENKINS" restore "$LATEST_SNAPSHOT_ID" --target / --exclude "$EXCLUDE_JOB" --delete
-echo "Restore completed successfully"
+# restic -r "$RESTIC_REPO_JENKINS" restore "$LATEST_SNAPSHOT_ID" \--target / --include "$JENKINS_HOME" --exclude "$EXCLUDE_JOB" --delete
+restic -r "$RESTIC_REPO_JENKINS" restore "$LATEST_SNAPSHOT_ID" 
+    --target / 
+    --exclude "$EXCLUDE_JOB" \
+    --exclude "$WORKSPACE" \
+    --delete
+echo "Restore jenkins completed successfully"
 
