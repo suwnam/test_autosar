@@ -4,8 +4,8 @@
 ## version: v0.1
 ## date: 2025-03-04
 
-export RESTIC_REPO_JENKINS = "s3:s3.ap-northeast-2.amazonaws.com/synetics-backup-test/test_jenkins"
-export JENKINS_HOME "/var/jenkins_home"
+export RESTIC_REPO_JENKINS="s3:s3.ap-northeast-2.amazonaws.com/synetics-backup-test/test_jenkins"
+export JENKINS_HOME="/var/jenkins_home"
 
 # Restic 저장소 연결 확인
 if restic -r "$RESTIC_REPO_JENKINS" snapshots > /dev/null 2>&1; then
