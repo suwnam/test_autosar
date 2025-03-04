@@ -1,0 +1,102 @@
+// This script is Jenkinsfile for restore
+
+// version: v0.1
+
+// date: 2025-03-04
+
+
+
+
+
+
+
+pipeline {
+
+    agent any
+
+
+
+    environment {
+
+
+        RESTIC_REPO_JENKINS = "${RESTIC_REPO}/test_jenkins"
+
+        RESTIC_REPO_NEXUS = "${RESTIC_REPO}/test_nexus"
+
+        SCRIPT_JRESTORE="restore_jenkins.sh"
+
+        SCRIPT_NRESTORE="restore_nexus.sh"
+
+    }
+
+
+
+    stages {
+
+        stage('Prepare Restore') {
+
+            steps {
+
+                script {
+
+                    echo "Ensuring restore script has execute permissions..."
+
+                    sh "chmod +x ./*.sh"
+
+                }
+
+            }
+
+        }
+
+
+        stage('Restore Jenkins') {
+
+            steps {
+
+                withCredentials([string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')]) {
+
+                    script {
+
+                        echo "Running jenkins snapshot cleanup script..."
+
+                        catchError {
+
+                            sh './${SCRIPT_JRESTORE}'
+
+                        }
+
+                    }
+
+                }    
+
+            }    
+
+          
+        stage('Restore Nexus') {
+
+            steps {
+
+                withCredentials([string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')]) {
+
+                    script {
+
+                        echo "Running jenkins snapshot cleanup script..."
+
+                        catchError {
+
+                            sh './${SCRIPT_NRESTORE}'
+
+                        }
+
+                    }
+
+                }    
+
+            }   
+        
+        }  
+
+    }
+
+}
