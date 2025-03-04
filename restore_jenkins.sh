@@ -24,7 +24,6 @@ fi
 
 
 # 최신 스냅샷으로 복원
-restic -r "$RESTIC_REPO_JENKINS" restore "$LATEST_SNAPSHOT_ID" --target /
-
+restic -r "$RESTIC_REPO_JENKINS" restore "$LATEST_SNAPSHOT_ID" --target / --incldue $JENKINS_HOME --delete
 echo "Restore completed successfully"
 
