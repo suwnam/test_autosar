@@ -4,7 +4,7 @@
 ## version: v0.2
 ## date: 2025-03-17
 
-RESTIC_REPO_NEXUS=$RESTIC_REPO/test_jenkins
+RESTIC_REPO_JENKINS=$RESTIC_REPO/test_jenkins
 BACKUP_DIR="/home/swnam/Jenkins/jenkins_home"
 EXCLUDE_DIR=$BACKUP_DIR/workspace
 
