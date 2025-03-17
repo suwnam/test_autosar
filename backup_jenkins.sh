@@ -1,9 +1,10 @@
-#!/bin/bash
+'#!/bin/bash
 
 ## This script is for backup jenknis repository
-## version: v0.1
-## date: 2025-02-27
+## version: v0.2
+## date: 2025-03-17
 
+BACKUP_DIR="/home/swnam/Jenkins/jenkins_home"
 EXCLUDE_DIR=$JENKINS_HOME/workspace
 
 # Restic 저장소 연결 확인
@@ -45,13 +46,13 @@ BACKUP_TAG="jenkins-$backup_type-$BACKUP_DATE"
 # 백업 태그별 증분/전체 백업 수행
 case "$backup_type" in
     "initialFullBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_JENKINS" backup "$JENKINS_HOME" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
+        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_JENKINS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
         ;;
     "fullBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_JENKINS" backup --force "$JENKINS_HOME" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
+        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_JENKINS" backup --force "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
         ;;
     "incBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_JENKINS" backup "$JENKINS_HOME" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
+        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_JENKINS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
         ;;
     *)
         echo "Error: Unknown backup type $backup_type"
