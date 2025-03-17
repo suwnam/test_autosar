@@ -35,7 +35,7 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
                                 export RESTIC_REPO='$RESTIC_REPO' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
-                                bash $REMOTE_PATH/$SCRIPT_JBACKUP
+//                                bash $REMOTE_PATH/$SCRIPT_JBACKUP
                                 rm -f $REMOTE_PATH/$SCRIPT_JBACKUP
                             "
                         '''       
@@ -58,7 +58,7 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
                                 export RESTIC_REPO='$RESTIC_REPO' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
-                                bash $REMOTE_PATH/$SCRIPT_NBACKUP
+//                                bash $REMOTE_PATH/$SCRIPT_NBACKUP
                                 rm -f $REMOTE_PATH/$SCRIPT_NBACKUP
                             "
                         '''       
@@ -81,7 +81,7 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
                                 export RESTIC_REPO='$RESTIC_REPO' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
-                                bash $REMOTE_PATH/$SCRIPT_JCLEAN
+//                                bash $REMOTE_PATH/$SCRIPT_JCLEAN
                                 rm -f $REMOTE_PATH/$SCRIPT_JCLEAN
                             "
                         '''       
