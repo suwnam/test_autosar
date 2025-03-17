@@ -7,8 +7,6 @@
 BACKUP_DIR="/home/swnam/Jenkins/jenkins_home"
 EXCLUDE_DIR=$BACKUP_DIR/workspace
 
-echo "!!!!!!!!!! RESTIC_RPO_JENKINS: $RESTIC_REPO_JENKINS"
-
 # Restic 저장소 연결 확인
 if restic -r $RESTIC_REPO_JENKINS snapshots > /dev/null 2>&1; then
     echo "Successfully connected to Restic jenkins repository"
@@ -31,7 +29,7 @@ CURRENT_DAY=$(date +%u)
 if [ -z "$LATEST_SNAPSHOT_ID" ]; then
     echo "No previous snapshots found. Performing initial FULL backup..."
     backup_type="initialFullBackup"
-elif [ "$CURRENT_DAY" -eq 0 ] || [ "$CURRENT_DAY" -eq 7 ]; then
+elif [ "$CURRENT_DAY" -eq 7 ]; then
     echo "Performing scheduled FULL backup on Sunday..."
     backup_type="fullBackup"
 else
