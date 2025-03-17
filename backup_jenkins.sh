@@ -1,4 +1,4 @@
-'#!/bin/bash
+#!/bin/bash
 
 ## This script is for backup jenknis repository
 ## version: v0.2
