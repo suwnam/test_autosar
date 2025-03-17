@@ -4,7 +4,7 @@ pipeline {
     environment {
         REMOTE_USER = 'swnam'
         REMOTE_HOST = '192.168.0.23'
-        REMOTE_PATH = '/home/swnam/Jenkins/jenkins_backup.sh'
+        REMOTE_PATH = '/home/swnam/Jenkins/backup_jenkins.sh'
         SCRIPT_NAME = 'backup_jenkins.sh'
     }
 
