@@ -6,7 +6,6 @@
 
 RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
 BACKUP_DIR="/home/swnam/Jenkins/nexus-data"
-EXCLUDE_DIR=$BACKUP_DIR/workspace
 
 # Restic 저장소 연결 확인
 if restic -r $RESTIC_REPO_NEXUS snapshots > /dev/null 2>&1; then
@@ -47,13 +46,13 @@ BACKUP_TAG="nexus-$backup_type-$BACKUP_DATE"
 # 백업 태그별 증분/전체 백업 수행
 case "$backup_type" in
     "initialFullBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
+        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
         ;;
     "fullBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup --force "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
+        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup --force "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
         ;;
     "incBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
+        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
         ;;
     *)
         echo "Error: Unknown backup type $backup_type"
