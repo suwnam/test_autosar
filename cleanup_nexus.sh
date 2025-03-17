@@ -4,7 +4,7 @@
 ## version: v0.2
 ## date: 2025-03-17
 
-\RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
+RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
 
 # Find the latest full backup snapshot
 latest_snapshot=$(restic -r "$RESTIC_REPO_NEXUS" snapshots --json | jq -r '
