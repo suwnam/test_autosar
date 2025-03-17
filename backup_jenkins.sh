@@ -8,6 +8,8 @@ RESTIC_REPO_JENKINS="${RESTIC_REPO}/test_jenkins"
 BACKUP_DIR="/home/swnam/Jenkins/jenkins_home"
 EXCLUDE_DIR=$BACKUP_DIR/workspace
 
+echo "!!!!!!!!!! RESTIC_RPO_JENKINS: $RESTIC_REPO_JENKINS"
+
 # Restic 저장소 연결 확인
 if restic -r $RESTIC_REPO_JENKINS snapshots > /dev/null 2>&1; then
     echo "Successfully connected to Restic jenkins repository"
