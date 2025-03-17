@@ -10,7 +10,7 @@ pipeline {
         SCRIPT_NBACKUP = 'backup_nexus.sh'
 
         SCRIPT_JCLEAN = 'cleanup_jenkins.sh'
-        SCRIPT_NCLEA = 'cleanup_nexus.sh'
+        SCRIPT_NCLEAN = 'cleanup_nexus.sh'
 
     }
 
