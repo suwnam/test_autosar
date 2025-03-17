@@ -4,8 +4,9 @@
 ## version: v0.2
 ## date: 2025-03-17
 
+RESTIC_REPO_JENKINS="${RESTIC_REPO}/test_jenkins"
 BACKUP_DIR="/home/swnam/Jenkins/jenkins_home"
-EXCLUDE_DIR=$JENKINS_HOME/workspace
+EXCLUDE_DIR=$BACKUP_DIR/workspace
 
 # Restic 저장소 연결 확인
 if restic -r $RESTIC_REPO_JENKINS snapshots > /dev/null 2>&1; then
