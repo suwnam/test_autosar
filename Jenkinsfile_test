@@ -32,7 +32,8 @@ pipeline {
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
                                 bash $REMOTE_PATH
                             "
-                        '''
+                        '''       
+                    }
                 }
             }
         }
