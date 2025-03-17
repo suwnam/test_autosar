@@ -5,6 +5,8 @@ pipeline {
         REMOTE_USER = 'swnam'
         REMOTE_HOST = '192.168.0.23'
         REMOTE_PATH = '/home/swnam/Jenkins/backup_jenkins.sh'
+
+        RESTIC_REPO_JENKINS = "${RESTIC_REPO}/test_jenkins"
         SCRIPT_NAME = 'backup_jenkins.sh'
     }
 
