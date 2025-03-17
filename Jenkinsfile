@@ -1,165 +1,126 @@
 // This script is Jenkinsfile
-
-// version: v0.1
-
-// date: 2025-02-28
-
-
-
-
-
+// version: v0.2
+// date: 2025-03-17
 
 
 pipeline {
-
     agent any
 
-
-
     environment {
+        REMOTE_USER = 'swnam'
+        REMOTE_HOST = '192.168.0.23'
+        REMOTE_PATH = '/home/swnam/Jenkins'
 
+        SCRIPT_JBACKUP = 'backup_jenkins.sh'
+        SCRIPT_NBACKUP = 'backup_nexus.sh'
 
-        RESTIC_REPO_JENKINS = "${RESTIC_REPO}/test_jenkins"
-
-        RESTIC_REPO_NEXUS = "${RESTIC_REPO}/test_nexus"
-
-        
-
-        SCRIPT_JBACKUP="backup_jenkins.sh"
-
-        SCRIPT_NBACKUP="backup_nexus.sh"
-
-        
-
-        SCRIPT_JCLEAN="cleanup_jenkins.sh"
-
-        SCRIPT_NCLEAN="cleanup_nexus.sh"
+        SCRIPT_JCLEAN = 'cleanup_jenkins.sh'
+        SCRIPT_NCLEAN = 'cleanup_nexus.sh'
 
     }
 
-
-
     stages {
-
-        stage('Prepare Backup') {
-
+        stage('Prepare Execution') {
             steps {
-
-                script {
-
-                    echo "Ensuring restore script has execute permissions..."
-
-                    sh "chmod +x ./*.sh"
-
-                }
-
+                sh "chmod +x ./*sh"
             }
-
         }
 
-
-
-        stage('Backup Jenkins') {
-
+        stage('Run Backup Jenkins') {
             steps {
+                sshagent (credentials: ['vm-ssh-key']) {
+                    withCredentials([
+                        string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')
+                    ]) {
+                        sh '''
+                            echo "[+] Copying Jenkins backup script to remote server"
+                            scp -o StrictHostKeyChecking=no $SCRIPT_JBACKUP $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
 
-                withCredentials([string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')]) {
-
-                    script {
-
-                        echo "Running Jenkins backup script..."
-
-                        catchError {
-
-                            sh './${SCRIPT_JBACKUP}'
-
-                        }
-
+                            echo "[+] Running Jenkins backup script on remote server"
+                            ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
+                                export RESTIC_REPO='$RESTIC_REPO' &&
+                                export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
+                                bash $REMOTE_PATH/$SCRIPT_JBACKUP
+                                rm -f $REMOTE_PATH/$SCRIPT_JBACKUP
+                            "
+                        '''       
                     }
-
                 }
-
             }
-
         }
 
-
-
-        stage('Backup Nexus') {
-
+        stage('Run Backup Nexus') {
             steps {
+                sshagent (credentials: ['vm-ssh-key']) {
+                    withCredentials([
+                        string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')
+                    ]) {
+                        sh '''
+                            echo "[+] Copying Nexus backup script to remote server"
+                            scp -o StrictHostKeyChecking=no $SCRIPT_NBACKUP $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
 
-                withCredentials([string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')]) {
-
-                    script {
-
-                        echo "Running Nexus backup script..."
-
-                        catchError {
-
-                            sh './${SCRIPT_NBACKUP}'
-
-                        }
-
+                            echo "[+] Running Nexus backup script on remote server"
+                            ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
+                                export RESTIC_REPO='$RESTIC_REPO' &&
+                                export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
+                                bash $REMOTE_PATH/$SCRIPT_NBACKUP
+                                rm -f $REMOTE_PATH/$SCRIPT_NBACKUP
+                            "
+                        '''       
                     }
-
                 }
-
             }
-
         }
 
-        
-
-        stage('Cleanup Jenkins Snapshots') {
-
+        stage('Run Cleanup Jenkins Snapshots') {
             steps {
+                sshagent (credentials: ['vm-ssh-key']) {
+                    withCredentials([
+                        string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')
+                    ]) {
+                        sh '''
+                            echo "[+] Copying Jenkins Cleanup script to remote server"
+                            scp -o StrictHostKeyChecking=no $SCRIPT_JCLEAN $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
 
-                withCredentials([string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')]) {
-
-                    script {
-
-                        echo "Running jenkins snapshot cleanup script..."
-
-                        catchError {
-
-                            sh './${SCRIPT_JCLEAN}'
-
-                        }
-
+                            echo "[+] Running Jenkins Cleanup script on remote server"
+                            ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
+                                export RESTIC_REPO='$RESTIC_REPO' &&
+                                export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
+                                bash $REMOTE_PATH/$SCRIPT_JCLEAN
+                                rm -f $REMOTE_PATH/$SCRIPT_JCLEAN
+                            "
+                        '''       
                     }
-
-                }    
-
-            }    
-
+                }
+            }
         }
 
-        
-
-        stage('Cleanup Nexus Snapshots') {
-
+        stage('Run Cleanup Nexus Snapshots') {
             steps {
+                sshagent (credentials: ['vm-ssh-key']) {
+                    withCredentials([
+                        string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')
+                    ]) {
+                        sh '''
+                            echo "[+] Copying Nexus Cleanup script to remote server"
+                            scp -o StrictHostKeyChecking=no $SCRIPT_NCLEAN $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
 
-                withCredentials([string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')]) {
-
-                    script {
-
-                        echo "Running nexus snapshot cleanup script..."
-
-                        catchError{
-
-                            sh './${SCRIPT_NCLEAN}'
-
-                        }
-
-                    }    
-
+                            echo "[+] Running Nexus Cleanup script on remote server"
+                            ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
+                                export RESTIC_REPO='$RESTIC_REPO' &&
+                                export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
+                                bash $REMOTE_PATH/$SCRIPT_NCLEAN
+                                rm -f $REMOTE_PATH/$SCRIPT_NCLEAN
+                            "
+                        '''       
+                    }
                 }
+            }
+        }
+    }
+}
 
-            }    
 
-        }  
 
     }
 
