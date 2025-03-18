@@ -5,7 +5,7 @@
 ## date: 2025-02-27
 
 # Nexus 컨테이너 내부에서 Restic 백업 실행
-docker exec -t -e RESTIC_PASSWORD="$RESTIC_PASSWORD" -e RESTIC_REPO_NEXUS="$RESTIC_REPO_NEXUS" nexus bash -c "
+docker exec -t -e RESTIC_PASSWORD="$RESTIC_PASSWORD" -e RESTIC_REPO_NEXUS="$RESTIC_REPO_NEXUS" 03_nexus-nexus-1 bash -c "
 
 export NEXUS_HOME=\"/nexus-data\"
 
