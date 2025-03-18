@@ -28,7 +28,7 @@ pipeline {
 
         stage('Run Backup Jenkins') {
             steps {
-                sshagent (credentials: ['vm-ssh-key']) {
+                sshagent (credentials: ['ssh-key']) {
                     withCredentials([
                         string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')
                     ]) {
@@ -51,7 +51,7 @@ pipeline {
 
         stage('Run Backup Nexus') {
             steps {
-                sshagent (credentials: ['vm-ssh-key']) {
+                sshagent (credentials: ['ssh-key']) {
                     withCredentials([
                         string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')
                     ]) {
@@ -74,7 +74,7 @@ pipeline {
 
         stage('Run Cleanup Jenkins Snapshots') {
             steps {
-                sshagent (credentials: ['vm-ssh-key']) {
+                sshagent (credentials: ['ssh-key']) {
                     withCredentials([
                         string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')
                     ]) {
@@ -97,7 +97,7 @@ pipeline {
 
         stage('Run Cleanup Nexus Snapshots') {
             steps {
-                sshagent (credentials: ['vm-ssh-key']) {
+                sshagent (credentials: ['ssh-key']) {
                     withCredentials([
                         string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')
                     ]) {
