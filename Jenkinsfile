@@ -63,7 +63,7 @@ pipeline {
 
             steps {
 
-                withCredentials([string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')]) {
+                withCredentials([string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD_2')]) {
 
                     script {
 
@@ -89,7 +89,7 @@ pipeline {
 
             steps {
 
-                withCredentials([string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')]) {
+                withCredentials([string(credentialsId: 'RESTIC_PASSWORD', variable: 'tlspxlrtm!2')]) {
 
                     script {
 
