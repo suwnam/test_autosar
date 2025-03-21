@@ -4,7 +4,7 @@
 ## version: v0.2.1
 ## date: 2025-03-20
 
-RESTIC_REPO_NEXUS=$RESTIC_REPO/nexus_repo
+RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
 BACKUP_DIR="/home/popcornsar/DevOps/03_Nexus/nexus-data"
 
 # Restic 저장소 연결 확인
@@ -46,13 +46,13 @@ BACKUP_TAG="nexus-$backup_type-$BACKUP_DATE"
 # 백업 태그별 증분/전체 백업 수행
 case "$backup_type" in
     "initialFullBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
+        BACKUP_OUTPUT=$(sudo restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
         ;;
     "fullBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup --force "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
+        BACKUP_OUTPUT=$(sudo restic -r "$RESTIC_REPO_NEXUS" backup --force "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
         ;;
     "incBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
+        BACKUP_OUTPUT=$(sudo restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
         ;;
     *)
         echo "Error: Unknown backup type $backup_type"
