@@ -29,7 +29,7 @@ nexus_paths=(
   "$BACKUP_DIR/blobs"
   "$BACKUP_DIR/db"
   "$BACKUP_DIR/etc"
-  "$BACKUP_DIR/orient"
+#  "$BACKUP_DIR/orient"
 )
 
 # Check latest snapshots have primary files
