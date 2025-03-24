@@ -14,9 +14,6 @@ pipeline {
         JENKINS_HOME = '/home/popcornsar/DevOps/01_Jenkins/jenkins_home'
         NEXUS_DATA = '/home/popcornsar/DevOps/03_Nexus/nexus-data'
 
-        RESTIC_REPO_JENKINS = '$RESTIC_REPO/test_jenkins'
-        RESTIC_REPO_NEXUS = '$RESTIC_REPO/test_nexus'
-
         SCRIPT_JBACKUP = 'backup_jenkins.sh'
         SCRIPT_NBACKUP = 'backup_nexus.sh'
 
@@ -32,6 +29,8 @@ pipeline {
         stage('Prepare Execution') {
             steps {
                 sh "chmod +x ./*sh"
+                env.RESTIC_REPO_JENKINS = "${env.RESTIC_REPO}/test_jenkins"
+                env.RESTIC_REPO_NEXUS = "${env.RESTIC_REPO}/test_nexus"
             }
         }
 
@@ -50,8 +49,8 @@ pipeline {
                                 export RESTIC_REPO_JENKINS='$RESTIC_REPO_JENKINS' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
                                 export BACKUP_DIR='$JENKINS_HOME' &&
-                                echo "!!!!!!!!!!RESTIC_REPO_JENKINS: $RESTIC_REPO_JENKINS" &&
-                                echo "!!!!!!!!!!BACKUP_DIR: $BACKUP_DIR" &&
+                                echo '!!!!!!!!!!RESTIC_REPO_JENKINS: '$RESTIC_REPO_JENKINS &&
+                                echo '!!!!!!!!!!BACKUP_DIR: '$BACKUP_DIR &&
                                 bash $REMOTE_PATH/$SCRIPT_JBACKUP
                                 bash $REMOTE_PATH/$SCRIPT_JCHECK
                                 rm -f $REMOTE_PATH/$SCRIPT_JBACKUP $REMOTE_PATH/$SCRIPT_JCHECK
