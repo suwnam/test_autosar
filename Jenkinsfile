@@ -65,7 +65,7 @@ pipeline {
                     ]) {
                         sh '''
                             echo "[+] Copying Nexus backup script to remote server"
-                            scp -o StrictHostKeyChecking=no $SCRIPT_NBACKUP $REMOTE_PATH/$SCRIPT_NCHECK $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
+                            scp -o StrictHostKeyChecking=no $SCRIPT_NBACKUP $SCRIPT_NCHECK $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
 
                             echo "[+] Running Nexus backup script on remote server"
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
