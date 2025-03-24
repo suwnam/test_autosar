@@ -44,8 +44,7 @@ pipeline {
 
                             echo "[+] Running Jenkins backup script on remote server"
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
-#                                export RESTIC_REPO_JENKINS='$RESTIC_REPO/test_jenkins' &&
-                                export RESTIC_REPO='$RESTIC_REPO' &&
+                                export RESTIC_REPO_JENKINS='$RESTIC_REPO/test_jenkins' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
                                 export BACKUP_DIR=$JENKINS_HOME &&
                                 bash $REMOTE_PATH/$SCRIPT_JBACKUP
@@ -95,7 +94,7 @@ pipeline {
 
                             echo "[+] Running Jenkins Cleanup script on remote server"
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
-                                export RESTIC_REPO_JENKINS='$RESTIC_REPO_JENKINS' &&
+                                export RESTIC_REPO_JENKINS='$RESTIC_REPO/test_jenkins' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
                                 bash $REMOTE_PATH/$SCRIPT_JCLEAN
                                 rm -f $REMOTE_PATH/$SCRIPT_JCLEAN
@@ -118,7 +117,7 @@ pipeline {
 
                             echo "[+] Running Nexus Cleanup script on remote server"
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
-                                export RESTIC_REPO_NEXUS='$RESTIC_REPO_NEXUS' &&
+                                export RESTIC_REPO_NEXUS='$RESTIC_REPO/test_nexus' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
                                 bash $REMOTE_PATH/$SCRIPT_NCLEAN
                                 rm -f $REMOTE_PATH/$SCRIPT_NCLEAN
