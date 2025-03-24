@@ -4,7 +4,7 @@
 ## version: v0.2.2
 ## date: 2025-03-24
 
-RESTIC_REPO_JENKINS=$RESTIC_REPO/test_repo
+RESTIC_REPO_JENKINS=$RESTIC_REPO/test_jenkins
 BACKUP_DIR="/home/popcornsar/DevOps/01_Jenkins/jenkins_home"
 EXCLUDE_DIR=$BACKUP_DIR/workspace
 
