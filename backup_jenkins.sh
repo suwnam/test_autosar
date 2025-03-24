@@ -4,6 +4,7 @@
 ## version: v0.2.2
 ## date: 2025-03-24
 
+RESTIC_REPO_JENKINS=$RESTIC_REPO/test_jenkins
 EXCLUDE_DIR=$BACKUP_DIR/workspace
 
 # Restic 저장소 연결 확인
