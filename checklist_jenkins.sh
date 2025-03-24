@@ -4,8 +4,6 @@
 ## version: v0.1
 ## date: 2025-03-24
 
-JENKINS_HOME="/home/popcornsar/DevOps/01_Jenkins/jenkins_home"
-
 # 스냅샷의 tag 가져오기
 BACKUP_DATE=$(date +%y%m%d)
 tags=$(restic -r "$RESTIC_REPO_JENKINS" snapshots latest --json | jq -r '.[-1].tags[]')
@@ -23,14 +21,14 @@ echo "==========================="
 
 # Primary Jenkins file lists
 jenkins_paths=(
-  "$JENKINS_HOME/config.xml"
-  "$JENKINS_HOME/credentials.xml"
-  "$JENKINS_HOME/jobs"
-  "$JENKINS_HOME/plugins"
-  "$JENKINS_HOME/secrets"
-  "$JENKINS_HOME/users"
-  "$JENKINS_HOME/nodes"
-  "$JENKINS_HOME/identity.key.enc"
+  "$BACKUP_DIR/config.xml"
+  "$BACKUP_DIR/credentials.xml"
+  "$BACKUP_DIR/jobs"
+  "$BACKUP_DIR/plugins"
+  "$BACKUP_DIR/secrets"
+  "$BACKUP_DIR/users"
+  "$BACKUP_DIR/nodes"
+  "$BACKUP_DIR/identity.key.enc"
 )
 
 # Check latest snapshots have primary files
