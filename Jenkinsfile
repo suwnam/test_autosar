@@ -47,8 +47,6 @@ pipeline {
                                 export RESTIC_REPO_JENKINS='$RESTIC_REPO/test_jenkins' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
                                 export BACKUP_DIR='$JENKINS_HOME' &&
-                                echo '!!!!!!!!!!RESTIC_REPO_JENKINS: '$RESTIC_REPO_JENKINS &&
-                                echo '!!!!!!!!!!BACKUP_DIR: '$BACKUP_DIR &&
                                 bash $REMOTE_PATH/$SCRIPT_JBACKUP
                                 bash $REMOTE_PATH/$SCRIPT_JCHECK
                                 rm -f $REMOTE_PATH/$SCRIPT_JBACKUP $REMOTE_PATH/$SCRIPT_JCHECK
