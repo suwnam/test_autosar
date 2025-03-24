@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## This script is for checking primary backup files/dirs
+## This script is for checking primary backup files/dirs in Nexus repo
 ## version: v0.1
 ## date: 2025-03-24
 
