@@ -4,7 +4,6 @@
 ## version: v0.2.2
 ## date: 2025-03-24
 
-BACKUP_DIR="/home/popcornsar/DevOps/01_Jenkins/jenkins_home"
 EXCLUDE_DIR=$BACKUP_DIR/workspace
 
 # Restic 저장소 연결 확인
