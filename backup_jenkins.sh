@@ -5,7 +5,6 @@
 ## date: 2025-03-24
 
 EXCLUDE_DIR=$BACKUP_DIR/workspace
-echo "!!!!!!BACKUP_DIR: $BACKUP_DIR"
 
 # Restic 저장소 연결 확인
 if restic -r $RESTIC_REPO_JENKINS snapshots > /dev/null 2>&1; then
