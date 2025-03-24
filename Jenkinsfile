@@ -11,6 +11,9 @@ pipeline {
         REMOTE_HOST = '192.168.10.28'
         REMOTE_PATH = '/home/popcornsar/remote-files'
 
+        JENKINS_HOME = '/home/popcornsar/DevOps/01_Jenkins/jenkins_home'
+        NEXUS_DATA = '/home/popcornsar/DevOps/03_Nexus/nexus-data'
+
         RESTIC_REPO_JENKINS = '$RESTIC_REPO/test_jenkins'
         RESTIC_REPO_NEXUS = '$RESTIC_REPO/test_nexus'
 
@@ -46,6 +49,7 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
                                 export RESTIC_REPO_JENKINS='$RESTIC_REPO_JENKINS' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
+                                export BACKUP_DIR='$JENKINS_HOME' &&
                                 bash $REMOTE_PATH/$SCRIPT_JBACKUP
                                 bash $REMOTE_PATH/$SCRIPT_JCHECK
                                 rm -f $REMOTE_PATH/$SCRIPT_JBACKUP $REMOTE_PATH/$SCRIPT_JCHECK
@@ -70,6 +74,7 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
                                 export RESTIC_REPO_NEXUS='$RESTIC_REPO_NEXUS' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
+                                export BACKUP_DIR='$NEXUS_DATA' &&
                                 bash $REMOTE_PATH/$SCRIPT_NBACKUP
                                 bash $REMOTE_PATH/$SCRIPT_NCHECK
                                 rm -f $REMOTE_PATH/$SCRIPT_NBACKUP $REMOTE_PATH/$SCRIPT_NCHECK
@@ -94,6 +99,7 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
                                 export RESTIC_REPO_JENKINS='$RESTIC_REPO_JENKINS' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
+                                export BACKUP_DIR='$JENKINS_HOME' &&
                                 bash $REMOTE_PATH/$SCRIPT_JCLEAN
                                 rm -f $REMOTE_PATH/$SCRIPT_JCLEAN
                             "
@@ -117,6 +123,7 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
                                 export RESTIC_REPO_NEXUS='$RESTIC_REPO_NEXUS' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
+                                export BACKUP_DIR='$NEXUS_DATA' &&
                                 bash $REMOTE_PATH/$SCRIPT_NCLEAN
                                 rm -f $REMOTE_PATH/$SCRIPT_NCLEAN
                             "
