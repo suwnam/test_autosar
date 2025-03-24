@@ -29,8 +29,6 @@ pipeline {
         stage('Prepare Execution') {
             steps {
                 sh "chmod +x ./*sh"
-                env.RESTIC_REPO_JENKINS = "${env.RESTIC_REPO}/test_jenkins"
-                env.RESTIC_REPO_NEXUS = "${env.RESTIC_REPO}/test_nexus"
             }
         }
 
