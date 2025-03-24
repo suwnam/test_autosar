@@ -46,7 +46,7 @@ pipeline {
 
                             echo "[+] Running Jenkins backup script on remote server"
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
-                                export RESTIC_REPO_JENKINS='$RESTIC_REPO_JENKINS' &&
+                                export RESTIC_REPO_JENKINS='$RESTIC_REPO/test_jenkins' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
                                 export BACKUP_DIR='$JENKINS_HOME' &&
                                 echo '!!!!!!!!!!RESTIC_REPO_JENKINS: '$RESTIC_REPO_JENKINS &&
@@ -73,7 +73,7 @@ pipeline {
 
                             echo "[+] Running Nexus backup script on remote server"
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
-                                export RESTIC_REPO_NEXUS='$RESTIC_REPO_NEXUS' &&
+                                export RESTIC_REPO_NEXUS='$RESTIC_REPO/test_nexus' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
                                 export BACKUP_DIR='$NEXUS_DATA' &&
                                 bash $REMOTE_PATH/$SCRIPT_NBACKUP
