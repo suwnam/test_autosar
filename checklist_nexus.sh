@@ -4,8 +4,6 @@
 ## version: v0.1
 ## date: 2025-03-24
 
-NEXUS_DATA="/home/popcornsar/DevOps/03_Nexus/nexus-data"
-
 # 스냅샷의 tag 가져오기
 BACKUP_DATE=$(date +%y%m%d)
 
@@ -24,10 +22,10 @@ echo "==========================="
 
 # Primary Nexus file lists
 nexus_paths=(
-  "$NEXUS_DATA/nexus-data/blobs"
-  "$NEXUS_DATA/nexus-data/db"
-  "$NEXUS_DATA/nexus-data/etc"
-  "$NEXUS_DATA/nexus-data/orient"
+  "$BACKUP_DIR/nexus-data/blobs"
+  "$BACKUP_DIR/nexus-data/db"
+  "$BACKUP_DIR/nexus-data/etc"
+  "$BACKUP_DIR/nexus-data/orient"
 )
 
 # Check latest snapshots have primary files
