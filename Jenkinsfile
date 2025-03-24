@@ -17,6 +17,9 @@ pipeline {
         SCRIPT_JBACKUP = 'backup_jenkins.sh'
         SCRIPT_NBACKUP = 'backup_nexus.sh'
 
+        SCRIPT_JCHECK = 'checklist_jenkins.sh'
+        SCRIPT_JCHECK = 'checklist_nexus.sh'
+
         SCRIPT_JCLEAN = 'cleanup_jenkins.sh'
         SCRIPT_NCLEAN = 'cleanup_nexus.sh'
 
@@ -37,14 +40,15 @@ pipeline {
                     ]) {
                         sh '''
                             echo "[+] Copying Jenkins backup script to remote server"
-                            scp -o StrictHostKeyChecking=no $SCRIPT_JBACKUP $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
+                            scp -o StrictHostKeyChecking=no $SCRIPT_JBACKUP $SCRIPT_JCHECK $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
 
                             echo "[+] Running Jenkins backup script on remote server"
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
                                 export RESTIC_REPO_JENKINS='$RESTIC_REPO_JENKINS' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
                                 bash $REMOTE_PATH/$SCRIPT_JBACKUP
-                                rm -f $REMOTE_PATH/$SCRIPT_JBACKUP
+                                bash $REMOTE_PATH/$SCRIPT_JCHECK
+                                rm -f $REMOTE_PATH/$SCRIPT_JBACKUP $REMOTE_PATH/$SCRIPT_JCHECK
                             "
                         '''       
                     }
@@ -60,14 +64,15 @@ pipeline {
                     ]) {
                         sh '''
                             echo "[+] Copying Nexus backup script to remote server"
-                            scp -o StrictHostKeyChecking=no $SCRIPT_NBACKUP $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
+                            scp -o StrictHostKeyChecking=no $SCRIPT_NBACKUP $REMOTE_PATH/$SCRIPT_NCHECK $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
 
                             echo "[+] Running Nexus backup script on remote server"
                             ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
                                 export RESTIC_REPO_NEXUS='$RESTIC_REPO_NEXUS' &&
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
                                 bash $REMOTE_PATH/$SCRIPT_NBACKUP
-                                rm -f $REMOTE_PATH/$SCRIPT_NBACKUP
+                                bash $REMOTE_PATH/$SCRIPT_NCHECK
+                                rm -f $REMOTE_PATH/$SCRIPT_NBACKUP $REMOTE_PATH/$SCRIPT_NCHECK
                             "
                         '''       
                     }
