@@ -21,7 +21,7 @@ pipeline {
         SCRIPT_NBACKUP = 'backup_nexus.sh'
 
         SCRIPT_JCHECK = 'checklist_jenkins.sh'
-        SCRIPT_JCHECK = 'checklist_nexus.sh'
+        SCRIPT_NCHECK = 'checklist_nexus.sh'
 
         SCRIPT_JCLEAN = 'cleanup_jenkins.sh'
         SCRIPT_NCLEAN = 'cleanup_nexus.sh'
