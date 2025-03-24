@@ -1,10 +1,8 @@
 #!/bin/bash
 
 ## This script is for backup nexus repository
-## version: v0.2.1
-## date: 2025-03-20
-
-BACKUP_DIR="/home/popcornsar/DevOps/03_Nexus/nexus-data"
+## version: v0.2.2
+## date: 2025-03-24
 
 # Restic 저장소 연결 확인
 if restic -r $RESTIC_REPO_NEXUS snapshots > /dev/null 2>&1; then
