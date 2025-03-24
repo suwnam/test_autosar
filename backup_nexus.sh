@@ -5,7 +5,7 @@
 ## date: 2025-03-20
 
 RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
-BACKUP_DIR="/home/popcornsar/DevOps/03_Nexus/nexus-data"
+BACKUP_DIR="/home/swnam/Jenkins/nexus-data"
 
 # Restic 저장소 연결 확인
 if restic -r $RESTIC_REPO_NEXUS snapshots > /dev/null 2>&1; then
