@@ -7,9 +7,9 @@ pipeline {
     agent any
 
     environment {
-        REMOTE_USER = 'popcornsar'
-        REMOTE_HOST = '192.168.10.28'
-        REMOTE_PATH = '/home/popcornsar/remote-files'
+        REMOTE_USER = 'swnam'
+        REMOTE_HOST = '192.168.0.23'
+        REMOTE_PATH = '/home/swnam/Jenkins'
 
         SCRIPT_JBACKUP = 'backup_jenkins.sh'
         SCRIPT_NBACKUP = 'backup_nexus.sh'
