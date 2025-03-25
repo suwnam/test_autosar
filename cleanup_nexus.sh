@@ -2,7 +2,13 @@
 
 ## This script is for cleaning up Nexus repository
 ## version: v0.2.1
+<<<<<<< HEAD
 ## date: 2025-03-25
+=======
+## date: 2025-03-24
+
+RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
+>>>>>>> origin/v.0.2
 
 # Find the latest full backup snapshot
 latest_snapshot=$(restic -r "$RESTIC_REPO_NEXUS" snapshots --json | jq -r '

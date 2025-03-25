@@ -2,8 +2,14 @@
 
 ## This script is for checking primary backup files/dirs in Jenkins repo
 ## version: v0.1
+<<<<<<< HEAD
 ## date: 2025-03-25
 
+=======
+## date: 2025-03-24
+
+RESTIC_REPO_JENKINS=$RESTIC_REPO/test_jenkins
+>>>>>>> origin/v.0.2
 BACKUP_DIR="/home/popcornsar/DevOps/01_Jenkins/jenkins_home"
 
 # 스냅샷의 tag 가져오기

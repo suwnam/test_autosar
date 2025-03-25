@@ -2,8 +2,14 @@
 
 ## This script is for backup nexus repository
 ## version: v0.2.2
+<<<<<<< HEAD
 ## date: 2025-03-25
 
+=======
+## date: 2025-03-24
+
+RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
+>>>>>>> origin/v.0.2
 BACKUP_DIR="/home/popcornsar/DevOps/03_Nexus/nexus-data"
 
 # Restic 저장소 연결 확인
@@ -45,6 +51,7 @@ BACKUP_TAG="nexus-$backup_type-$BACKUP_DATE"
 # 백업 태그별 증분/전체 백업 수행
 case "$backup_type" in
     "initialFullBackup")
+<<<<<<< HEAD
         BACKUP_OUTPUT=$(sudo RESTIC_PASSWORD=$RESTIC_PASSWORD restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
         ;;
     "fullBackup")
@@ -52,6 +59,15 @@ case "$backup_type" in
         ;;
     "incBackup")
         BACKUP_OUTPUT=$(sudo RESTIC_PASSWORD=$RESTIC_PASSWORD restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
+=======
+        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
+        ;;
+    "fullBackup")
+        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup --force "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
+        ;;
+    "incBackup")
+        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
+>>>>>>> origin/v.0.2
         ;;
     *)
         echo "[-] Error: Restic backup failed. Unknown backup type $backup_type."

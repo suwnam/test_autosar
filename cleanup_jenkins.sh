@@ -2,7 +2,13 @@
 
 ## This script is for cleaning up Jenkins repository
 ## version: v0.2.1
+<<<<<<< HEAD
 ## date: 2025-03-25
+=======
+## date: 2025-03-24
+
+RESTIC_REPO_JENKINS=$RESTIC_REPO/test_repo
+>>>>>>> origin/v.0.2
 
 # Find the latest full backup snapshot
 latest_snapshot=$(restic -r "$RESTIC_REPO_JENKINS" snapshots --json | jq -r '
