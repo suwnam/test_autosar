@@ -45,14 +45,14 @@ pipeline {
                                 export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
                                 bash $REMOTE_PATH/$SCRIPT_JBACKUP
                                 bash $REMOTE_PATH/$SCRIPT_JCHECK
-#                                rm -f $REMOTE_PATH/$SCRIPT_JBACKUP $REMOTE_PATH/$SCRIPT_JCHECK
+                                rm -f $REMOTE_PATH/$SCRIPT_JBACKUP $REMOTE_PATH/$SCRIPT_JCHECK
                             "
                         '''       
                     }
                 }
             }
         }
-/*
+
         stage('Run Backup Nexus') {
             steps {
                 sshagent (credentials: ['ssh-key']) {
@@ -122,6 +122,5 @@ pipeline {
                 }
             }
         }
-*/
     }
 }

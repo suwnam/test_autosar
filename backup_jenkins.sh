@@ -2,7 +2,7 @@
 
 ## This script is for backup jenknis repository
 ## version: v0.2.2
-## date: 2025-03-24
+## date: 2025-03-25
 
 RESTIC_REPO_JENKINS=$RESTIC_REPO/test_jenkins
 BACKUP_DIR="/home/popcornsar/DevOps/01_Jenkins/jenkins_home"
@@ -41,21 +41,19 @@ fi
 echo "Backup type: $backup_type"
 
 # 백업 태그
-BACKUP_DATE=$(date +%y%m%d%H:%M:%S)
-#BACKUP_DATE=$(date +%y%m%d)
+BACKUP_DATE=$(date +%y%m%d)
 BACKUP_TAG="jenkins-$backup_type-$BACKUP_DATE"
 
 # 백업 태그별 증분/전체 백업 수행
 case "$backup_type" in
     "initialFullBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_JENKINS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
+        BACKUP_OUTPUT=$(sudo RESTIC_PASSWORD=$RESTIC_PASSWORD restic -r "$RESTIC_REPO_JENKINS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
         ;;
     "fullBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_JENKINS" backup --force "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
+        BACKUP_OUTPUT=$(sudo RESTIC_PASSWORD=$RESTIC_PASSWORD restic -r "$RESTIC_REPO_JENKINS" backup --force "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
         ;;
     "incBackup")
         BACKUP_OUTPUT=$(sudo RESTIC_PASSWORD=$RESTIC_PASSWORD restic -r "$RESTIC_REPO_JENKINS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
-#        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_JENKINS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
         ;;
     *)
         echo "[-] Error: Restic backup failed. Unknown backup type $backup_type."
