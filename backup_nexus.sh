@@ -2,7 +2,7 @@
 
 ## This script is for backup nexus repository
 ## version: v0.2.2
-## date: 2025-03-24
+## date: 2025-03-25
 
 RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
 BACKUP_DIR="/home/popcornsar/DevOps/03_Nexus/nexus-data"
@@ -29,7 +29,7 @@ CURRENT_DAY=$(date +%u)
 if [ -z "$LATEST_SNAPSHOT_ID" ]; then
     echo "[*] No previous snapshots found. Performing initial FULL backup..."
     backup_type="initialFullBackup"
-elif [ "$CURRENT_DAY" -eq 7 ]; then
+elif [ "$CURRENT_DAY" -eq 2 ]; then
     echo "[*] Performing scheduled FULL backup on Sunday..."
     backup_type="fullBackup"
 else
@@ -46,13 +46,13 @@ BACKUP_TAG="nexus-$backup_type-$BACKUP_DATE"
 # 백업 태그별 증분/전체 백업 수행
 case "$backup_type" in
     "initialFullBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
+        BACKUP_OUTPUT=$(sudo RESTIC_PASSWORD=$RESTIC_PASSWORD restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
         ;;
     "fullBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup --force "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
+        BACKUP_OUTPUT=$(sudo RESTIC_PASSWORD=$RESTIC_PASSWORD restic -r "$RESTIC_REPO_NEXUS" backup --force "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
         ;;
     "incBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
+        BACKUP_OUTPUT=$(sudo RESTIC_PASSWORD=$RESTIC_PASSWORD restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
         ;;
     *)
         echo "[-] Error: Restic backup failed. Unknown backup type $backup_type."
