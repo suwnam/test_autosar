@@ -2,9 +2,8 @@
 
 ## This script is for checking primary backup files/dirs in Nexus repo
 ## version: v0.1
-## date: 2025-03-24
+## date: 2025-03-25
 
-RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
 BACKUP_DIR="/home/popcornsar/DevOps/03_Nexus/nexus-data"
 
 # 스냅샷의 tag 가져오기

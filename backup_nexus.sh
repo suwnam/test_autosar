@@ -4,7 +4,6 @@
 ## version: v0.2.2
 ## date: 2025-03-25
 
-RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
 BACKUP_DIR="/home/popcornsar/DevOps/03_Nexus/nexus-data"
 
 # Restic 저장소 연결 확인
@@ -29,7 +28,7 @@ CURRENT_DAY=$(date +%u)
 if [ -z "$LATEST_SNAPSHOT_ID" ]; then
     echo "[*] No previous snapshots found. Performing initial FULL backup..."
     backup_type="initialFullBackup"
-elif [ "$CURRENT_DAY" -eq 2 ]; then
+elif [ "$CURRENT_DAY" -eq 7 ]; then
     echo "[*] Performing scheduled FULL backup on Sunday..."
     backup_type="fullBackup"
 else

@@ -1,7 +1,6 @@
 // This script is Jenkinsfile
-// version: v0.2.1
-// date: 2025-03-24
-
+// version: v0.2.4
+// date: 2025-03-25
 
 pipeline {
     agent any
@@ -19,108 +18,86 @@ pipeline {
 
         SCRIPT_JCLEAN = 'cleanup_jenkins.sh'
         SCRIPT_NCLEAN = 'cleanup_nexus.sh'
-
     }
 
     stages {
         stage('Prepare Execution') {
             steps {
-                sh "chmod +x ./*sh"
+                sh 'chmod +x ./*sh'
             }
         }
 
         stage('Run Backup Jenkins') {
             steps {
-                sshagent (credentials: ['ssh-key']) {
-                    withCredentials([
-                        string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')
-                    ]) {
-                        sh '''
-                            echo "[*] Copying Jenkins backup script to remote server"
-                            scp -o StrictHostKeyChecking=no $SCRIPT_JBACKUP $SCRIPT_JCHECK $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
-
-                            echo "[*] Running Jenkins backup script on remote server"
-                            ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
-                                export RESTIC_REPO='$RESTIC_REPO' &&
-                                export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
-                                bash $REMOTE_PATH/$SCRIPT_JBACKUP
-                                bash $REMOTE_PATH/$SCRIPT_JCHECK
-                                rm -f $REMOTE_PATH/$SCRIPT_JBACKUP $REMOTE_PATH/$SCRIPT_JCHECK
-                            "
-                        '''       
-                    }
+                script {
+                    env.RESTIC_REPO_JENKINS = "${env.RESTIC_REPO}/test_jenkins"
+                    runRemoteScripts([SCRIPT_JBACKUP, SCRIPT_JCHECK])
                 }
             }
         }
 
         stage('Run Backup Nexus') {
             steps {
-                sshagent (credentials: ['ssh-key']) {
-                    withCredentials([
-                        string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')
-                    ]) {
-                        sh '''
-                            echo "[*] Copying Nexus backup script to remote server"
-                            scp -o StrictHostKeyChecking=no $SCRIPT_NBACKUP $SCRIPT_NCHECK $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
-
-                            echo "[*] Running Nexus backup script on remote server"
-                            ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
-                                export RESTIC_REPO='$RESTIC_REPO' &&
-                                export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
-                                bash $REMOTE_PATH/$SCRIPT_NBACKUP
-                                bash $REMOTE_PATH/$SCRIPT_NCHECK
-                                rm -f $REMOTE_PATH/$SCRIPT_NBACKUP $REMOTE_PATH/$SCRIPT_NCHECK
-                            "
-                        '''       
-                    }
+                script {
+                    env.RESTIC_REPO_NEXUS = "${env.RESTIC_REPO}/test_nexus"
+                    runRemoteScripts([SCRIPT_NBACKUP, SCRIPT_NCHECK])
                 }
             }
         }
 
         stage('Run Cleanup Jenkins Snapshots') {
             steps {
-                sshagent (credentials: ['ssh-key']) {
-                    withCredentials([
-                        string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')
-                    ]) {
-                        sh '''
-                            echo "[*] Copying Jenkins Cleanup script to remote server"
-                            scp -o StrictHostKeyChecking=no $SCRIPT_JCLEAN $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
-
-                            echo "[*] Running Jenkins Cleanup script on remote server"
-                            ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
-                                export RESTIC_REPO='$RESTIC_REPO' &&
-                                export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
-                                bash $REMOTE_PATH/$SCRIPT_JCLEAN
-                                rm -f $REMOTE_PATH/$SCRIPT_JCLEAN
-                            "
-                        '''       
-                    }
+                script {
+                    env.RESTIC_REPO_JENKINS = "${env.RESTIC_REPO}/test_jenkins"
+                    runRemoteScripts([SCRIPT_JCLEAN])
                 }
             }
         }
 
         stage('Run Cleanup Nexus Snapshots') {
             steps {
-                sshagent (credentials: ['ssh-key']) {
-                    withCredentials([
-                        string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')
-                    ]) {
-                        sh '''
-                            echo "[*] Copying Nexus Cleanup script to remote server"
-                            scp -o StrictHostKeyChecking=no $SCRIPT_NCLEAN $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
-
-                            echo "[*] Running Nexus Cleanup script on remote server"
-                            ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "
-                                export RESTIC_REPO='$RESTIC_REPO' &&
-                                export RESTIC_PASSWORD='$RESTIC_PASSWORD' &&
-                                bash $REMOTE_PATH/$SCRIPT_NCLEAN
-                                rm -f $REMOTE_PATH/$SCRIPT_NCLEAN
-                            "
-                        '''       
-                    }
+                script {
+                    env.RESTIC_REPO_NEXUS = "${env.RESTIC_REPO}/test_nexus"
+                    runRemoteScripts([SCRIPT_NCLEAN])
                 }
             }
         }
     }
 }
+
+def runRemoteScripts(scriptList) {
+    sshagent (credentials: ['ssh-key']) {
+        withCredentials([string(credentialsId: 'RESTIC_PASSWORD', variable: 'RESTIC_PASSWORD')]) {
+            def copyScripts = scriptList.collect { script ->
+                "scp -o StrictHostKeyChecking=no ${script} ${env.REMOTE_USER}@${env.REMOTE_HOST}:${env.REMOTE_PATH}/"
+            }.join('\n')
+
+            def runScripts = scriptList.collect { script ->
+                "bash ${env.REMOTE_PATH}/${script} || { echo '[!] ${script} failed'; exit 1; }"
+            }.join('\n')
+
+            def cleanScripts = scriptList.collect { script ->
+                "rm -f ${env.REMOTE_PATH}/${script}"
+            }.join('\n')
+
+            sh """
+                echo "[*] Copying scripts to remote server"
+                ${copyScripts}
+
+                echo "[*] Running scripts on remote server"
+                ssh -o StrictHostKeyChecking=no ${env.REMOTE_USER}@${env.REMOTE_HOST} '
+                    set -e
+                    export RESTIC_REPO="${env.RESTIC_REPO}"
+                    export RESTIC_REPO_JENKINS="${env.RESTIC_REPO_JENKINS}"
+                    export RESTIC_REPO_NEXUS="${env.RESTIC_REPO_NEXUS}"
+                    export RESTIC_PASSWORD="${env.RESTIC_PASSWORD}"
+
+                    ${runScripts}
+
+                    ${cleanScripts}
+                '
+            """
+        }
+    }
+}
+
