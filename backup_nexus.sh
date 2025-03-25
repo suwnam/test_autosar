@@ -30,7 +30,6 @@ if [ -z "$LATEST_SNAPSHOT_ID" ]; then
     echo "[*] No previous snapshots found. Performing initial FULL backup..."
     backup_type="initialFullBackup"
 elif [ "$CURRENT_DAY" -eq 2 ]; then
-#elif [ "$CURRENT_DAY" -eq 7 ]; then
     echo "[*] Performing scheduled FULL backup on Sunday..."
     backup_type="fullBackup"
 else
