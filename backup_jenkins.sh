@@ -41,7 +41,8 @@ fi
 echo "Backup type: $backup_type"
 
 # 백업 태그
-BACKUP_DATE=$(date +%y%m%d)
+BACKUP_DATE=$(date +%y%m%d%H:%M:%S)
+#BACKUP_DATE=$(date +%y%m%d)
 BACKUP_TAG="jenkins-$backup_type-$BACKUP_DATE"
 
 # 백업 태그별 증분/전체 백업 수행
@@ -50,7 +51,8 @@ case "$backup_type" in
         BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_JENKINS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
         ;;
     "fullBackup")
-        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_JENKINS" backup --force "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
+        BACKUP_OUTPUT=$(sudo restic -r "$RESTIC_REPO_JENKINS" backup --force "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
+#        BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_JENKINS" backup --force "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
         ;;
     "incBackup")
         BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_JENKINS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" --exclude "$EXCLUDE_DIR" 2>&1)
