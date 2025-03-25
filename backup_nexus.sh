@@ -1,17 +1,17 @@
 #!/bin/bash
 
 ## This script is for backup nexus repository
-## version: v0.2
-## date: 2025-03-17
+## version: v0.2.2
+## date: 2025-03-24
 
 RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
-BACKUP_DIR="/home/swnam/Jenkins/nexus-data"
+BACKUP_DIR="/home/popcornsar/DevOps/03_Nexus/nexus-data"
 
 # Restic 저장소 연결 확인
 if restic -r $RESTIC_REPO_NEXUS snapshots > /dev/null 2>&1; then
-    echo "Successfully connected to Restic nexus repository"
+    echo "[+] Successfully connected to Restic nexus repository"
 else
-    echo "Failed to connect to Restic nexus repository"
+    echo "[-] Failed to connect to Restic nexus repository"
     exit 1
 fi
 
@@ -27,13 +27,13 @@ fi
 CURRENT_DAY=$(date +%u)
 
 if [ -z "$LATEST_SNAPSHOT_ID" ]; then
-    echo "No previous snapshots found. Performing initial FULL backup..."
+    echo "[*] No previous snapshots found. Performing initial FULL backup..."
     backup_type="initialFullBackup"
 elif [ "$CURRENT_DAY" -eq 7 ]; then
-    echo "Performing scheduled FULL backup on Sunday..."
+    echo "[*] Performing scheduled FULL backup on Sunday..."
     backup_type="fullBackup"
 else
-    echo "Performing INCREMENTAL backup..."
+    echo "[*] Performing INCREMENTAL backup..."
     backup_type="incBackup"
 fi
 
@@ -55,14 +55,14 @@ case "$backup_type" in
         BACKUP_OUTPUT=$(restic -r "$RESTIC_REPO_NEXUS" backup "$BACKUP_DIR" --tag "$BACKUP_TAG" 2>&1)
         ;;
     *)
-        echo "Error: Unknown backup type $backup_type"
+        echo "[-] Error: Restic backup failed. Unknown backup type $backup_type."
         exit 1
         ;;
 esac
 
 # 백업 실행 결과 확인
 if [ $? -ne 0 ]; then
-    echo "Error: Restic backup failed!"
+    echo "[-] Error: Restic backup failed. Fail to execute restic."
     echo "$BACKUP_OUTPUT"
     exit 1
 fi
@@ -72,19 +72,19 @@ NEW_SNAPSHOT_ID=$(restic -r "$RESTIC_REPO_NEXUS" snapshots --json 2>/dev/null | 
 
 # 스냅샷 생성 여부 확인
 if [ -z "$NEW_SNAPSHOT_ID" ]; then
-    echo "Error: Snapshot creation failed. No snapshot ID found."
+    echo "[-] Error: Restic backup failed. No snapshot ID created."
     exit 1
 fi
 
 # 백업 완료 메시지 출력
-echo "Backup completed successfully: Type=$backup_type, Snapshot ID = $NEW_SNAPSHOT_ID"
+echo "[+] Backup completed successfully: Type=$backup_type, Snapshot ID = $NEW_SNAPSHOT_ID"
 
 # 증분 백업 실행 시 최신 스냅샷과 비교하여 변경된 파일 출력
 if [ "$backup_type" = "incBackup" ] && [ -n "$LATEST_SNAPSHOT_ID" ]; then
-    echo "Comparing changes with the latest snapshot..."
-    restic -r "$RESTIC_REPO_NEXUS" diff "$LATEST_SNAPSHOT_ID" "$NEW_SNAPSHOT_ID" || { echo "Warning: Failed to compare snapshots"; }
+    echo "[*] Comparing changes with the latest snapshot..."
+    restic -r "$RESTIC_REPO_NEXUS" diff "$LATEST_SNAPSHOT_ID" "$NEW_SNAPSHOT_ID" || { echo "[-] Warning: Failed to compare snapshots"; }
 else
-    echo "No previous snapshot found or performing full backup."
+    echo "[+] No previous snapshot found or performing full backup."
 fi
 
 # 생성된 스냅샷 정보 출력
