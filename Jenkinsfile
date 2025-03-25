@@ -1,5 +1,5 @@
 // This script is Jenkinsfile
-// version: v0.2.4
+// version: v0.2.2
 // date: 2025-03-25
 
 pipeline {
@@ -30,7 +30,7 @@ pipeline {
         stage('Run Backup Jenkins') {
             steps {
                 script {
-                    env.RESTIC_REPO_JENKINS = "${env.RESTIC_REPO}/jenkins"
+                    env.RESTIC_REPO_JENKINS = "${env.RESTIC_REPO}/test_jenkins"
                     runRemoteScripts([SCRIPT_JBACKUP, SCRIPT_JCHECK])
                 }
             }
@@ -39,7 +39,7 @@ pipeline {
         stage('Run Backup Nexus') {
             steps {
                 script {
-                    env.RESTIC_REPO_NEXUS = "${env.RESTIC_REPO}/nexus"
+                    env.RESTIC_REPO_NEXUS = "${env.RESTIC_REPO}/test_nexus"
                     runRemoteScripts([SCRIPT_NBACKUP, SCRIPT_NCHECK])
                 }
             }
@@ -48,7 +48,7 @@ pipeline {
         stage('Run Cleanup Jenkins Snapshots') {
             steps {
                 script {
-                    env.RESTIC_REPO_JENKINS = "${env.RESTIC_REPO}/jenkins"
+                    env.RESTIC_REPO_JENKINS = "${env.RESTIC_REPO}/test_jenkins"
                     runRemoteScripts([SCRIPT_JCLEAN])
                 }
             }
@@ -57,7 +57,7 @@ pipeline {
         stage('Run Cleanup Nexus Snapshots') {
             steps {
                 script {
-                    env.RESTIC_REPO_NEXUS = "${env.RESTIC_REPO}/nexus"
+                    env.RESTIC_REPO_NEXUS = "${env.RESTIC_REPO}/test_nexus"
                     runRemoteScripts([SCRIPT_NCLEAN])
                 }
             }
@@ -100,4 +100,5 @@ def runRemoteScripts(scriptList) {
         }
     }
 }
+
 

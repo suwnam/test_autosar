@@ -4,7 +4,7 @@
 ## version: v0.2.2
 ## date: 2025-03-25
 
-RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
+#RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
 BACKUP_DIR="/home/popcornsar/DevOps/03_Nexus/nexus-data"
 
 # Restic 저장소 연결 확인

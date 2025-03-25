@@ -4,7 +4,7 @@
 ## version: v0.1
 ## date: 2025-03-24
 
-RESTIC_REPO_JENKINS=$RESTIC_REPO/test_jenkins
+#RESTIC_REPO_JENKINS=$RESTIC_REPO/test_jenkins
 BACKUP_DIR="/home/popcornsar/DevOps/01_Jenkins/jenkins_home"
 
 # 스냅샷의 tag 가져오기

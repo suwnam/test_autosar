@@ -4,7 +4,7 @@
 ## version: v0.1
 ## date: 2025-03-24
 
-RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
+#RESTIC_REPO_NEXUS=$RESTIC_REPO/test_nexus
 BACKUP_DIR="/home/popcornsar/DevOps/03_Nexus/nexus-data"
 
 # 스냅샷의 tag 가져오기
