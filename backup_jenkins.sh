@@ -5,16 +5,18 @@
 restic_backup() {
     local repo_type=$1
 
-    if [ "$repo_type" == "s3" ]; then
-        export RESTIC_REPO_JENKINS="$RESTIC_S3_JENKINS"
+    export RESTIC_REPO_JENKINS="$RESTIC_S3_JENKINS"
 
-    elif [ "$repo_type" == "local" ]; then
-        export RESTIC_REPO_JENKINS="$RESTIC_LO_JENKINS"
+#    if [ "$repo_type" == "s3" ]; then
+#        export RESTIC_REPO_JENKINS="$RESTIC_S3_JENKINS"
 
-    else
-        echo "Invalid repository type. Choose 's3' or 'local'."
-        return 1
-    fi
+#    elif [ "$repo_type" == "local" ]; then
+#        export RESTIC_REPO_JENKINS="$RESTIC_LO_JENKINS"
+
+#    else
+#        echo "Invalid repository type. Choose 's3' or 'local'."
+#        return 1
+#    fi
 
     echo "starting jenkins backup at $RESTIC_REPO_JENKINS"
 
@@ -110,5 +112,5 @@ restic_backup() {
     }
 
 # 함수 호출
-restic_backup "s3"
-restic_backup "local"
+restic_backup "$RESTIC_S3_JENKINS"
+restic_backup "$RESTIC_LO_JENKINS"
