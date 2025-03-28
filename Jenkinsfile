@@ -1,6 +1,6 @@
 // This script is Jenkinsfile
-// version: v0.2.5
-// date: 2025-03-26
+// version: v0.0.1
+// date: 2025-03-28
 
 // 백업 성공 여부를 저장할 전역 변수
 def runBackupJenkinsSuccess = false
