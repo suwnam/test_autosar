@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                        env.RESTIC_REPO_JENKINS = "${env.RESTIC_REPO}/test_jenkins"
+                        env.RESTIC_REPO_JENKINS = "/media/popcornsar/T9/test_repo"
                         runRemoteScripts([SCRIPT_JBACKUP, SCRIPT_JCHECK])
                         runBackupJenkinsSuccess = true
                     }
@@ -50,7 +50,7 @@ pipeline {
             steps {
                 script {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                        env.RESTIC_REPO_NEXUS = "${env.RESTIC_REPO}/test_nexus"
+                        env.RESTIC_REPO_NEXUS = "/media/popcornsar/T9/test_repo"
                         runRemoteScripts([SCRIPT_NBACKUP, SCRIPT_NCHECK])
                         runBackupNexusSuccess = true
                     }
@@ -67,7 +67,7 @@ pipeline {
             }
             steps {
                 script {
-                    env.RESTIC_REPO_JENKINS = "${env.RESTIC_REPO}/test_jenkins"
+                    env.RESTIC_REPO_JENKINS = "/media/popcornsar/T9/test_repo"
                     runRemoteScripts([SCRIPT_JCLEAN])
                 }
             }
@@ -82,7 +82,7 @@ pipeline {
             }
             steps {
                 script {
-                    env.RESTIC_REPO_NEXUS = "${env.RESTIC_REPO}/test_nexus"
+                    env.RESTIC_REPO_NEXUS = "/media/popcornsar/T9/test_repo"
                     runRemoteScripts([SCRIPT_NCLEAN])
                 }
             }
