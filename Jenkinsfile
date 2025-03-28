@@ -53,7 +53,7 @@ pipeline {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                         env.RESTIC_S3_NEXUS = "${env.RESTIC_REPO_S3}/test_nexus"
 			env.RESTIC_LO_NEXUS = "${env.RESTIC_REPO_LOCAL}/test_nexus"
-#                        runRemoteScripts([SCRIPT_NBACKUP, SCRIPT_NCHECK])
+//                        runRemoteScripts([SCRIPT_NBACKUP, SCRIPT_NCHECK])
                         runBackupNexusSuccess = true
                     }
                 }
@@ -71,7 +71,7 @@ pipeline {
                 script {
                     env.RESTIC_S3_JENKINS = "${env.RESTIC_REPO_S3}/test_jenkins"
                     env.RESTIC_LO_JENKINS = "${env.RESTIC_REPO_LOCAL}/test_jenkins"
-#                    runRemoteScripts([SCRIPT_JCLEAN])
+//                    runRemoteScripts([SCRIPT_JCLEAN])
                 }
             }
         }
@@ -87,7 +87,7 @@ pipeline {
                 script {
                     env.RESTIC_S3_NEXUS = "${env.RESTIC_REPO_S3}/test_nexus"
                     env.RESTIC_LO_NEXUS = "${env.RESTIC_REPO_LOCAL}/test_nexus"
- #                   runRemoteScripts([SCRIPT_NCLEAN])
+ //                   runRemoteScripts([SCRIPT_NCLEAN])
                 }
             }
         }
