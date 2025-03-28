@@ -16,6 +16,8 @@ restic_backup() {
         return 1
     fi
 
+    echo "starting jenkins backup at $RESTIC_REPO_JENKINS"
+
     BACKUP_DIR="/home/popcornsar/DevOps/01_Jenkins/jenkins_home"
     EXCLUDE_DIR=$BACKUP_DIR/workspace
 
