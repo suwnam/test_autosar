@@ -1,6 +1,6 @@
 // This script is Jenkinsfile
-// version: v0.2.5
-// date: 2025-03-26
+// version: v0.3
+// date: 2025-03-28
 
 // 백업 성공 여부를 저장할 전역 변수
 def runBackupJenkinsSuccess = false
@@ -37,7 +37,8 @@ pipeline {
             steps {
                 script {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                        env.RESTIC_REPO_JENKINS = "/media/popcornsar/T9/test_repo"
+                        env.RESTIC_S3_JENKINS = "${env.RESTIC_REPO_S3}/test_jenkins"
+			env.RESTIC_LO_JENKINS = "${env.RESTIC_REPO_LOCAL}/test_jenkins"
                         runRemoteScripts([SCRIPT_JBACKUP, SCRIPT_JCHECK])
                         runBackupJenkinsSuccess = true
                     }
@@ -50,8 +51,9 @@ pipeline {
             steps {
                 script {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                        env.RESTIC_REPO_NEXUS = "/media/popcornsar/T9/test_repo"
-                        runRemoteScripts([SCRIPT_NBACKUP, SCRIPT_NCHECK])
+                        env.RESTIC_S3_NEXUS = "${env.RESTIC_REPO_S3}/test_nexus"
+			env.RESTIC_LO_NEXUS = "${env.RESTIC_REPO_LOCAL}/test_nexus"
+#                        runRemoteScripts([SCRIPT_NBACKUP, SCRIPT_NCHECK])
                         runBackupNexusSuccess = true
                     }
                 }
@@ -67,8 +69,9 @@ pipeline {
             }
             steps {
                 script {
-                    env.RESTIC_REPO_JENKINS = "/media/popcornsar/T9/test_repo"
-                    runRemoteScripts([SCRIPT_JCLEAN])
+                    env.RESTIC_S3_JENKINS = "${env.RESTIC_REPO_S3}/test_jenkins"
+                    env.RESTIC_LO_JENKINS = "${env.RESTIC_REPO_LOCAL}/test_jenkins"
+#                    runRemoteScripts([SCRIPT_JCLEAN])
                 }
             }
         }
@@ -82,8 +85,9 @@ pipeline {
             }
             steps {
                 script {
-                    env.RESTIC_REPO_NEXUS = "/media/popcornsar/T9/test_repo"
-                    runRemoteScripts([SCRIPT_NCLEAN])
+                    env.RESTIC_S3_NEXUS = "${env.RESTIC_REPO_S3}/test_nexus"
+                    env.RESTIC_LO_NEXUS = "${env.RESTIC_REPO_LOCAL}/test_nexus"
+ #                   runRemoteScripts([SCRIPT_NCLEAN])
                 }
             }
         }
